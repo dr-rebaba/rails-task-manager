@@ -4,7 +4,7 @@ class TasksController < ApplicationController
   end
 
   def show
-    @task = Task.find(params[:id])
+    @task = find_task
   end
 
   def new
@@ -17,7 +17,28 @@ class TasksController < ApplicationController
     redirect_to task_path(@task)
   end
 
+  def edit
+    @task = find_task
+  end
+
+  def update
+    @task = find_task
+    @task.update(task_params)
+    redirect_to task_path(@task)
+  end
+
+  def destroy
+    @task = find_task
+    @task.destroy
+
+    redirect_to tasks_path
+  end
+
   private
+
+  def find_task
+    Task.find(params[:id])
+  end
 
   def task_params
     params.require(:task).permit(:title, :details, :completed)
